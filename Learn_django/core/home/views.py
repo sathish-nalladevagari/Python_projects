@@ -1,7 +1,14 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view , permission_classes , authentication_classes
 from rest_framework.response import Response
 from home.models import Person
-from .serializers import PeopleSerializer , LoginSerializer
+from .serializers import PeopleSerializer , LoginSerializer , RegisterSerializer
+from rest_framework.views import APIView
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+
 
 @api_view(['GET', 'POST'])
 def index(request):
@@ -26,6 +33,8 @@ def home(request):
     return Response(data)
 
 @api_view(["GET",'POST','PUT', 'PATCH', 'DELETE'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def person(request):
     if request.method == 'GET':
         objs = Person.objects.filter(color__isnull = False)
@@ -63,12 +72,46 @@ def person(request):
         obj.delete()
         return Response({'message': 'Delete success'})
 
-@api_view(['POST'])
-def login(request):
-    data = request.data
-    serializer = LoginSerializer(data=data)
-    if serializer.is_valid():
-        data = serializer.validated_data
-        print(data)
-        return Response({'message' : 'success'})
-    return Response(serializer.errors)
+# Login api
+class LoginAPI(APIView):
+    def post(self, request):
+        data = request.data
+        serializer = LoginSerializer(data=data)
+        if not serializer.is_valid():
+            return Response({
+                'status' : False,
+                'message' : serializer.errors}
+                )
+        user = authenticate(username = serializer.data['username'], password = serializer.data['password'] )
+        if not user:
+            return Response({
+                'status' : False,
+                'message' : "invalid credetials"
+            })
+
+        token , _= Token.objects.get_or_create(user = user)
+        return Response({
+            'status' : True,
+            'message' : "user logged in ",
+            "token" : str(token)
+        })
+
+
+# Register Api
+
+class RegisterAPI(APIView):
+    
+    def post(self,request):
+        data = request.data
+        serializer = RegisterSerializer(data= data)
+        if not serializer.is_valid():
+            return Response({
+                "status" : False,
+                "message" : serializer.errors
+            })
+        
+        serializer.save()
+        return Response({
+            'status' : True,
+            'message' : "user created"
+        })
