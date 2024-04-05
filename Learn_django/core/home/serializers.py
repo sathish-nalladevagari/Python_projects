@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Person , Color
-from django.contrib.auth.models import User
-
+from django.contrib.auth.models import User 
+    
 
 
 class LoginSerializer(serializers.Serializer):
