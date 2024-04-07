@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content%}
+
+{% if user.is_authenticated%}
+<h1>Customer Record</h1>
+<div class="card">
+    <div class="card-header">
+        {{record.first_name}}
+        {{record.last_name}}
+    </div>
+    <div class="card-body">
+
+        <p class="card-text">Email : {{record.email}}</p>
+        <p class="card-text">Phone : {{record.phone}}</p>
+        <p class="card-text">Address : {{record.address}}</p>
+        <p class="card-text"> City : {{record.city}}</p>
+        <p class="card-text"> State : {{record.state}}</p>
+        <p class="card-text"> Zipcode : {{record.zipcode}}</p>
+        <p class="card-text"> Created_at : {{record.created_at}}</p>
+    </div>
+</div>
+
+<br>
+<br>
+<a href="{% url 'home' %} " class="btn btn-secondary">Go Back</a>
+<a href="{% url 'delete_record' record.id %} " class="btn btn-primary">Delete</a>
+
+{% else %}
+<h1>You have to login to view this page</h1>
+{% endif %}
+
+{% endblock %}
