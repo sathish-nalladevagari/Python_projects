@@ -2,6 +2,15 @@
 
 {% block content%}
 
-<h1>Home page withour logged in </h1>
+{% if user.is_authenticated %}
+
+<h1>Welcome user</h1>
+
+{% else %}
+
+<h1>Home page without logged in </h1>
+
+{% endif%}
+
 
 {% endblock %}
