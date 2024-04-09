@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-qlor$prm%wna=*6*n8bhn93f3d9uga7(qo8-39tx5k6fv(8)_^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.now.sh', '.vercel.app']
+ALLOWED_HOSTS = [ '.vercel.app','127.0.0.1']
 
 
 # Application definition
