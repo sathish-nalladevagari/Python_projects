@@ -3,6 +3,7 @@ from .forms import RegisterForm , TodoForm
 from django.contrib.auth import authenticate , login , logout
 from django.contrib import messages
 from .models import Todo
+from django.http import Http404
 
 # Create your views here.
 
@@ -74,3 +75,20 @@ def add_task(request):
 	else:	
 		form = TodoForm()
 		return render(request, 'addtask.html', {'form':form})
+
+def update_task(request , pk):
+	try:
+		task_data = Todo.objects.get(id = pk, user = request.user)
+	except Todo.DoesNotExist:
+		raise Http404("The id is not is user database")
+		
+	if request.method == 'POST':
+		form = TodoForm(request.POST or None , instance=task_data)
+		if form.is_valid():
+			form.save()
+			messages.success(request , "Task Updated Success")
+			return redirect('home')
+	else:
+		form = TodoForm(instance= task_data)
+		return render(request, 'update_task.html' ,{'form':form})
+
