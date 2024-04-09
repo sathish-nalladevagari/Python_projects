@@ -91,4 +91,11 @@ def update_task(request , pk):
 	else:
 		form = TodoForm(instance= task_data)
 		return render(request, 'update_task.html' ,{'form':form})
+	
+def delete_task(request,pk):
+	if request.user.is_authenticated:
+		task = Todo.objects.get(id = pk , user = request.user)
+		task.delete()
+		messages.success(request, "Task Deleted")
+		return redirect('home')
 
