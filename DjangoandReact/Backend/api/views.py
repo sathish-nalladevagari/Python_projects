@@ -26,7 +26,8 @@ class CreateNoteView(generics.ListCreateAPIView):
         if serializer.is_valid():
             serializer.save(author = self.request.user)
         else:
-            print(serializer.errors)            
+            print(serializer.errors)  
+              
 
 class DeleteNoteView(generics.DestroyAPIView):
     serializer_class = NoteSerializer
