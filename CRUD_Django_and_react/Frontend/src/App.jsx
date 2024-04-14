@@ -1,18 +1,18 @@
 import './App.css'
-import Button from '@mui/material/Button';
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Home from './pages/Home';
 import Register from './pages/Register';
 import Login from './pages/Login';
-import Navbar from './components/Navbar'
-
+import Navbar from './components/Navbar';
+import { Button } from '@material-tailwind/react';
 function App() {
 
 
   return (
     <>
-    <Navbar/>
+    <Button className='text-xl'>Button</Button>
     <BrowserRouter>
+    <Navbar/>
     <Routes>
       <Route path='/' element={<Home/>} />
       <Route  path='/register' element={<Register/>} />
@@ -21,8 +21,7 @@ function App() {
     </Routes>
     
     </BrowserRouter>
-      
-      <Button variant="contained">Hello world</Button>
+    
     </>
   )
 }
