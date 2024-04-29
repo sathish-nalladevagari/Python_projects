@@ -1,0 +1,7 @@
+connect with the database 
+and do crud operations 
+and do the employees task in here only.
+
+
+
+--retrive tables done

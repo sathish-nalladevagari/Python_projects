@@ -15,6 +15,11 @@ try:
     # Perform database operations here
 
     cursor = connection.cursor()
+    cursor.execute("select * from emp_address ")
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+
 
     
 
