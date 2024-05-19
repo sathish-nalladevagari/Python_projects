@@ -1,0 +1,49 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3">
+
+
+  {% if user.is_authenticated %}
+
+  {% if todolist %}
+
+  {% for todo in todolist %}
+  <br />
+
+  <a href="{% url 'update' todo.id %}" style="text-decoration: none; color: black;">
+    <div class="card">
+      <div class="card-header">
+        {{todo.id}}
+      </div>
+      <div class="card-body">
+        <blockquote class="blockquote mb-0">
+          <p>{{todo.title}}</p>
+          <footer class="blockquote-footer">Completed : {{todo.completed}}</footer>
+        </blockquote>
+        <a href="{% url 'delete' todo.id %}">Delete</a>
+      </div>
+    </div>
+  </a>
+    {% endfor %}
+
+    <br />
+    <a href="{% url 'add' %}" class="btn btn-primary">Add new task</a>
+
+
+    {% else %}
+    <h1> No items in todo </h1>
+    <a href="{% url 'add' %}" class="btn btn-primary">Add new task</a>
+
+    {% endif %}
+
+    {% else %}
+    <h1>Home page User not logged in</h1>
+
+    {% endif %}
+
+</div>
+
+
+{% endblock %}
